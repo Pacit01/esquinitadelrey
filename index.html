@@ -16,6 +16,16 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, where, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Expose Firebase to window for React component access
+        window.firebaseModules = { initializeApp, getFirestore, collection, addDoc, query, where, onSnapshot, orderBy, getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged };
+    </script>
+
     <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
@@ -96,7 +106,7 @@
                 "address": "Plaza del Rey, 11100 San Fernando, Cádiz",
                 "phone": "956 17 59 22",
                 "phone_clean": "34601295379",
-                "google_reviews_url": "https://www.google.com/search?q=esquinita+del+rey+san+fernando",
+                "google_reviews_url": "https://www.google.com/search?sa=X&sca_esv=f85673565f5b1f98&sxsrf=AE3TifOiwx9MlrUJC8Ktj9DWtB69GEwVug:1765150844337&q=La+Esquina+del+Rey+Rese%C3%B1as&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxK2NLS0MLM0NDMxNTI1MzMzNjYz28DI-IpR2idRwbW4sDQzL1EhJTVHISi1EoiLUw9vTCxexIpPFgDxmRYqVgAAAA&rldimm=9198691645256663366&tbm=lcl&hl=es-ES&ved=2ahUKEwjd4rSo06yRAxXQpCcCHQ6jMFEQ9fQKegQITRAF&biw=1707&bih=847&dpr=1.5#lkt=LocalPoiReviews",
                 "tripadvisor_url": "https://www.tripadvisor.com/",
                 "social": { "facebook": "#", "instagram": "#" },
                 "hours": {
@@ -596,31 +606,79 @@
             );
         };
 
-        const Reviews = () => (
-            <section id="reviews" className="py-16 bg-white border-b">
-                <div className="max-w-4xl mx-auto px-4">
-                    <h2 className="font-serif text-3xl font-bold text-center mb-10 text-rey-dark">Opiniones Verificadas</h2>
-                    <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 flex flex-col md:flex-row gap-8 items-center">
-                        <div className="text-center">
-                            <div className="w-28 h-28 rounded-full border-4 border-fork-green flex flex-col items-center justify-center mx-auto mb-2">
-                                <span className="text-3xl font-bold text-rey-dark">8.9</span>
-                                <span className="text-xs text-gray-500">/ 10</span>
+        const Reviews = () => {
+            // Ejemplo de opiniones manuales basadas en el feeling de Google Maps
+            const reviewsList = [
+                { user: "Antonio Manuel R.", date: "Hace 2 meses", rating: 5, text: "Buena relación calidad precio, presentación platos y profesionalidad servicio." },
+                { user: "Maquinista de la General L.", date: "Hace 1 mes", rating: 4, text: "Todo perfecto. La comida muy rica y el trato excelente." },
+                { user: "Maria Jose G.", date: "Hace 3 semanas", rating: 5, text: "Un sitio encantador en plena Plaza del Rey. Las tapas son originales y deliciosas." }
+            ];
+
+            return (
+                <section id="reviews" className="py-16 bg-white border-b">
+                    <div className="max-w-4xl mx-auto px-4">
+                        <h2 className="font-serif text-3xl font-bold text-center mb-10 text-rey-dark">Opiniones de Clientes</h2>
+                        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
+
+                            {/* Summary Header */}
+                            <div className="flex flex-col md:flex-row gap-8 items-center border-b border-gray-100 pb-8 mb-8">
+                                <div className="text-center">
+                                    {/* CAMBIO: Color del borde a verde (fork-green) */}
+                                    <div className="w-28 h-28 rounded-full border-4 border-fork-green flex flex-col items-center justify-center mx-auto mb-2 bg-rey-cream">
+                                        <span className="text-4xl font-bold text-rey-dark">4.7</span>
+                                        <span className="text-xs text-gray-500">de 5</span>
+                                    </div>
+                                    <div className="text-gray-500 text-sm font-medium">202 reseñas</div>
+                                </div>
+                                <div className="flex-grow w-full space-y-3">
+                                    {[{ l: "Comida", s: "4.8", w: "96%" }, { l: "Servicio", s: "4.7", w: "94%" }, { l: "Ambiente", s: "4.6", w: "92%" }].map((i, x) => (
+                                        <div key={x} className="flex items-center text-sm">
+                                            <span className="w-20 font-medium text-gray-600">{i.l}</span>
+                                            <div className="flex-grow mx-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                                {/* CAMBIO: Color de la barra a verde (fork-green) */}
+                                                <div className="h-full bg-fork-green rounded-full" style={{ width: i.w }}></div>
+                                            </div>
+                                            <span className="font-bold text-gray-800">{i.s}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <span className="bg-green-100 text-fork-green px-3 py-1 rounded-full text-xs font-bold">FABULOSO</span>
-                        </div>
-                        <div className="flex-grow w-full space-y-3">
-                            {[{ l: "Ambiente", s: "9.2", w: "92%" }, { l: "Comida", s: "9.0", w: "90%" }, { l: "Servicio", s: "8.8", w: "88%" }].map((i, x) => (
-                                <div key={x} className="flex items-center text-sm"><span className="w-20 font-medium">{i.l}</span><div className="flex-grow mx-4 h-2 bg-gray-100 rounded-full"><div className="h-full bg-fork-green rounded-full progress-bar" style={{ width: i.w }}></div></div><span className="font-bold">{i.s}</span></div>
-                            ))}
-                            <div className="pt-4 flex gap-4 justify-center md:justify-start">
-                                <a href={restaurantData.restaurant.google_reviews_url} target="_blank" className="text-sm font-medium text-blue-600 hover:underline flex items-center gap-1"><Icons.Google /> Ver en Google</a>
-                                <a href={restaurantData.restaurant.tripadvisor_url} target="_blank" className="text-sm font-medium text-tripadvisor hover:underline flex items-center gap-1"><Icons.TripAdvisor /> Ver en TripAdvisor</a>
+
+                            {/* Review Cards */}
+                            <div className="grid gap-6 mb-8">
+                                {reviewsList.map((review, idx) => (
+                                    <div key={idx} className="bg-gray-50 p-4 rounded-lg">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <span className="font-bold text-gray-900 block">{review.user}</span>
+                                                <span className="text-xs text-gray-500">{review.date}</span>
+                                            </div>
+                                            {/* CAMBIO: Color de estrellas a verde (fork-green) */}
+                                            <div className="flex text-fork-green">
+                                                {[...Array(review.rating)].map((_, i) => (
+                                                    <Icons.Star key={i} className="w-4 h-4 fill-current" />
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <p className="text-gray-700 text-sm italic">"{review.text}"</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* CAMBIO: Botones de Google y TripAdvisor juntos */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href={restaurantData.restaurant.google_reviews_url} target="_blank" className="text-sm font-bold text-gray-700 hover:text-blue-600 flex items-center justify-center gap-2 border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto">
+                                    <span className="text-blue-500"><Icons.Google /></span> Google (202)
+                                </a>
+                                <a href="https://www.tripadvisor.com/Restaurant_Review-g1078261-d32891411-Reviews-Cerveceria_La_Esquina_Del_Rey-San_Fernando_Province_of_Cadiz_Andalucia.html" target="_blank" className="text-sm font-bold text-gray-700 hover:text-green-600 flex items-center justify-center gap-2 border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto">
+                                    <span className="text-tripadvisor"><Icons.TripAdvisor /></span> TripAdvisor
+                                </a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        );
+                </section>
+            );
+        };
 
         const Menu = () => {
             const [activeCat, setActiveCat] = useState(restaurantData.menu[0].category);
@@ -700,6 +758,27 @@
             );
         };
 
+        const Location = () => {
+            return (
+                <section id="location" className="py-0">
+                    <div className="w-full h-96 bg-gray-100 relative">
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            scrolling="no"
+                            marginHeight="0"
+                            marginWidth="0"
+                            src="https://maps.google.com/maps?q=La%20Esquina%20del%20Rey%2C%20San%20Fernando&t=&z=15&ie=UTF8&iwloc=&output=embed&hl=es" // Added &hl=es
+                            title="Ubicación La Esquina del Rey"
+                            className="filter grayscale hover:grayscale-0 transition-all duration-500"
+                        ></iframe>
+                        <div className="absolute top-0 left-0 w-full h-full pointer-events-none shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"></div>
+                    </div>
+                </section>
+            );
+        };
+
         const Footer = () => (
             <footer id="info" className="bg-rey-dark text-white py-12 border-t-4 border-rey-gold">
                 <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-sm">
@@ -736,6 +815,7 @@
                     <Reviews />
                     <ReservationSystem />
                     <MiniGallery />
+                    <Location />
                     <Footer />
                 </div>
             );
