@@ -111,7 +111,7 @@
                 "address": "Plaza del Rey, 11100 San Fernando, Cádiz",
                 "phone": "956 17 59 22",
                 "phone_clean": "34601295379",
-                "google_reviews_url": "https://www.google.com/search?sa=X&sca_esv=f85673565f5b1f98&sxsrf=AE3TifOiwx9MlrUJC8Ktj9DWtB69GEwVug:1765150844337&q=La+Esquina+del+Rey+Rese%C3%B1as&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxK2NLS0MLM0NDMxNTI1MzMzNjYz28DI-IpR2idRwbW4sDQzL1EhJTVHISi1EoiLUw9vTCxexIpPFgDxmRYqVgAAAA&rldimm=9198691645256663366&tbm=lcl&hl=es-ES&ved=2ahUKEwjd4rSo06yRAxXQpCcCHQ6jMFEQ9fQKegQITRAF&biw=1707&bih=847&dpr=1.5#lkt=LocalPoiReviews",
+                "google_reviews_url": "https://www.google.com/search?sca_esv=f85673565f5b1f98&hl=es-ES&sxsrf=AE3TifOGXOE0b4hNGlMv-2hB3BHnktQulQ:1765203271054&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-EyHyGz-nU_uRYIBCZGANciEYk2NNDaEY1H2LWG_Jd89iidjKQ-p1ZDrpnt-kV7bTduQNdIk_4KFuoOmkP8AjQXw9bbZ07qwL5AjQMfgEvuCivI3jRg%3D%3D&q=La+Esquina+del+Rey+Rese%C3%B1as&sa=X&ved=2ahUKEwiOyLXPlq6RAxVjU6QEHUwyEncQ0bkNegQIIRAD&biw=2552&bih=1308&dpr=1",
                 "tripadvisor_url": "https://www.tripadvisor.com/",
                 "social": { "facebook": "#", "instagram": "#" },
                 "hours": {
@@ -140,7 +140,6 @@
                         { "name": "Café E Infusiones", "price_eur": 1.40 },
                         { "name": "Carajillo", "price_eur": 2.50 },
                         { "name": "Capuccino", "price_eur": 2.50 },
-                        { "name": "Pringá", "price_eur": 5.50 },
                         { "name": "Irlandés", "price_eur": 5.50 },
                         { "name": "Napolitana De Chocolate", "price_eur": 2.10 },
                         { "name": "Palmera", "description": "De huevo o natilla chocolate", "price_eur": 2.80 },
@@ -202,6 +201,18 @@
                     ]
                 },
                 {
+                    "category": "Para Picar",
+                    "items": [
+                        { "name": "Gilda Normal O Picante", "description": "Unid", "price_eur": 1.80 },
+                        { "name": "Gildas Del Rey", "description": "Unid (marinera, anchoa con huevo, griega siriaki o yaki)", "price_eur": 2.10 },
+                        { "name": "Patatas De Bolsa", "price_eur": 1.40 },
+                        { "name": "Aceitunas", "price_eur": 1.00 },
+                        { "name": "Frutos Secos", "price_eur": 1.00 },
+                        { "name": "Chalauras", "description": "Papas de bolsa con calamares, mejillones o anchoas", "price_eur": 3.50 }
+                    ]
+                },
+
+                {
                     "category": "Los Camperos Del Rey",
                     "items": [
                         { "name": "Del Rey", "description": "Jamón cocido, queso, lechuga, tomate y ali-oli", "price_eur": 3.50 },
@@ -253,24 +264,15 @@
                         { "name": "Surtido Del Rey", "price_eur": 5.80 }
                     ]
                 },
-                {
-                    "category": "Para Picar",
-                    "items": [
-                        { "name": "Gilda Normal O Picante", "description": "Unid", "price_eur": 1.80 },
-                        { "name": "Gildas Del Rey", "description": "Unid (marinera, anchoa con huevo, griega siriaki o yaki)", "price_eur": 2.10 },
-                        { "name": "Patatas De Bolsa", "price_eur": 1.40 },
-                        { "name": "Aceitunas", "price_eur": 1.00 },
-                        { "name": "Frutos Secos", "price_eur": 1.00 },
-                        { "name": "Chalauras", "description": "Papas de bolsa con calamares, mejillones o anchoas", "price_eur": 3.50 }
-                    ]
-                },
+
                 {
                     "category": "Cazuelas Reales",
                     "items": [
                         { "name": "Berza Con Pringá", "price_eur": null },
                         { "name": "Menudo De Ternera", "price_eur": null },
                         { "name": "Garbanzos Con Langostinos Y Sepias", "price_eur": null },
-                        { "name": "Garbanzos Con Bacalao", "price_eur": null }
+                        { "name": "Garbanzos Con Bacalao", "price_eur": null },
+                        { "name": "Pringá", "price_eur": 5.50 }
                     ]
                 }
             ]
@@ -434,8 +436,8 @@
 
             // Time slots available (static without DB)
             const timeSlots = [
-                "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
-                "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00"
+                "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+                "21:00", "21:30", "22:00", "22:30",
             ];
 
             const handleDateSelect = (date) => {
@@ -521,7 +523,7 @@
                                 {/* Columna Central: Horas */}
                                 <div className="lg:col-span-1">
                                     <h3 className="font-bold text-lg mb-4 text-gray-800">
-                                        Horarios disponibles
+                                        Horarios
                                     </h3>
                                     <div className="grid grid-cols-3 gap-3">
                                         {timeSlots.map(time => (
@@ -691,7 +693,7 @@
                             {/* CAMBIO: Botones de Google y TripAdvisor juntos */}
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <a href={restaurantData.restaurant.google_reviews_url} target="_blank" className="text-sm font-bold text-gray-700 hover:text-blue-600 flex items-center justify-center gap-2 border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto">
-                                    <span className="text-blue-500"><Icons.Google /></span> Google (202)
+                                    <span className="text-blue-500"><Icons.Google /></span> Google
                                 </a>
                                 <a href="https://www.tripadvisor.com/Restaurant_Review-g1078261-d32891411-Reviews-Cerveceria_La_Esquina_Del_Rey-San_Fernando_Province_of_Cadiz_Andalucia.html" target="_blank" className="text-sm font-bold text-gray-700 hover:text-green-600 flex items-center justify-center gap-2 border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto">
                                     <span className="text-tripadvisor"><Icons.TripAdvisor /></span> TripAdvisor
@@ -814,8 +816,8 @@
                         <h4 className="font-bold text-lg mb-4 font-serif">Contacto</h4>
                         <p className="flex items-center gap-2 text-gray-300 mb-4"><Icons.Phone /> {restaurantData.restaurant.phone}</p>
                         <div className="flex gap-4">
-                            <a href={restaurantData.restaurant.social.facebook} className="bg-gray-800 p-2 rounded-full hover:bg-rey-gold transition-colors"><Icons.Facebook /></a>
-                            <a href={restaurantData.restaurant.social.instagram} className="bg-gray-800 p-2 rounded-full hover:bg-rey-gold transition-colors"><Icons.Instagram /></a>
+                            <a href="https://www.facebook.com/laesquinadelreycerveceria/" className="bg-gray-800 p-2 rounded-full hover:bg-rey-gold transition-colors"><Icons.Facebook /></a>
+                            <a href="https://www.instagram.com/laesquinadelreycerveceria/?hl=es" className="bg-gray-800 p-2 rounded-full hover:bg-rey-gold transition-colors"><Icons.Instagram /></a>
                         </div>
                     </div>
                 </div>
